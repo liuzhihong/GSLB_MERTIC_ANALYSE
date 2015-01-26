@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+	<!--扫描注解 -->
+	<context:component-scan base-package="com.suning.gslb.metric"></context:component-scan>
+	<!-- 加载属性配置文件 -->
+	<context:property-placeholder location="classpath:conf/jdbc.properties" />
+	<!-- 配置dbcp数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${mysql.driverclass}" />
+		<property name="url" value="${mysql.url}" />
+		<property name="username" value="${mysql.username}" />
+		<property name="password" value="${mysql.password}" />
+	</bean>
+	<!--配置mybatis -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- <property name="configLocation" value="classpath:mybatis-config.xml"/> -->
+		<!-- 注入别名的包名前缀，这样就可以在mybatis的文件中直接写类名不用写全名了 -->
+		<!-- <property name="typeAliasesPackage" value="com.suning.demo01.dao"/> -->
+		<property name="mapperLocations" value="classpath:com/suning/gslb/metric/mappings/*.xml" />
+	</bean>
+	<!-- 指定mybatis搜索的范围 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.suning.gslb.metric.dao"/>
+		<property name="markerInterface" value="com.suning.gslb.metric.dao.SupperDao"/>
+	</bean>
+	<!-- 配置事务管理器 -->
+	<bean id="tManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 配置事务属性 -->
+	<tx:advice id="txAdvice" transaction-manager="tManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="select*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 通过AOP来声明式管理spring事务 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.suning.gslb.metric.serviceImpl.*.*(..))" id="methodAdvice"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="methodAdvice"/>
+	</aop:config>
+</beans>
