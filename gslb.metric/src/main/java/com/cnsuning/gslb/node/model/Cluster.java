@@ -3,18 +3,18 @@ package com.cnsuning.gslb.node.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClusterInfo {
-    private List<HostInfo> host = new ArrayList<HostInfo>();
+public class Cluster {
+    private List<Host> host = new ArrayList<Host>();
     private String name;
     private String localtime;
     private String owner;
     private String latlong;
     private String url;
 
-    public List<HostInfo> getHost() {
+    public List<Host> getHost() {
         return host;
     }
-    public void setHost(List<HostInfo> host) {
+    public void setHost(List<Host> host) {
         this.host = host;
     }
     public String getName() {

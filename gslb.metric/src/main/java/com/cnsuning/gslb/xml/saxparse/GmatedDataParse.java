@@ -15,11 +15,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class GmatedDataParse extends DefaultHandler {
     
-    private static ClusterInfoService clusterInfoService;
-    private static HostInfoService hostInfoService;
-    private static MetricInfoService metricInfoService;
-    private static ExtraDataInfoService extraDataInfoService;
-    private static ExtraElementInfoService extraElementInfoService;
+    private static ClusterInfoHandler clusterInfoService;
+    private static HostInfoHandler hostInfoService;
+    private static MetricInfoHandler metricInfoService;
+    private static ExtraDataInfoHandler extraDataInfoService;
+    private static ExtraElementInfoHandler extraElementInfoService;
     private static final String NODE_ADDRESS = "192.168.192.137";
     private static final int NODE_PORT = 8651;
     
@@ -42,11 +42,11 @@ public class GmatedDataParse extends DefaultHandler {
     }
 
     public void startDocument() throws SAXException {
-        clusterInfoService = new ClusterInfoService();
-        hostInfoService = new HostInfoService();
-        metricInfoService = new MetricInfoService();
-        extraDataInfoService = new ExtraDataInfoService();
-        extraElementInfoService = new ExtraElementInfoService();
+        clusterInfoService = new ClusterInfoHandler();
+        hostInfoService = new HostInfoHandler();
+        metricInfoService = new MetricInfoHandler();
+        extraDataInfoService = new ExtraDataInfoHandler();
+        extraElementInfoService = new ExtraElementInfoHandler();
     }
     
     public void endDocument() throws SAXException {

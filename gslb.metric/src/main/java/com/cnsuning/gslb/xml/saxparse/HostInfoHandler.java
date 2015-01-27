@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.xml.sax.Attributes;
 
-import com.cnsuning.gslb.node.model.HostInfo;
-import com.cnsuning.gslb.node.model.MetricInfo;
+import com.cnsuning.gslb.node.model.Host;
+import com.cnsuning.gslb.node.model.Metric;
 
-public class HostInfoService {
+public class HostInfoHandler {
     /* Host related info.*/
-    private static List<HostInfo> host;
-    private static HostInfo currentHost;
+    private static List<Host> host;
+    private static Host currentHost;
     private static final String HOST = "HOST";
     private static final  String HOST_NAME = "NAME";
     private static final  String HOST_IP = "IP";
@@ -23,18 +23,18 @@ public class HostInfoService {
     private static final  String HOST_GMOND_STARTED = "GMOND_STARTED";
     private static final  String HOST_TAGS = "TAGS";
     
-    public List<HostInfo> getHost() {
+    public List<Host> getHost() {
         return host;
     }
     
-    public HostInfoService() {
-        host = new ArrayList<HostInfo>();
+    public HostInfoHandler() {
+        host = new ArrayList<Host>();
     }
     
     /* Initial the host's data */
     public void initHostInfo(String qName, Attributes attributes) {
         if(HOST.equals(qName)){
-            currentHost = new HostInfo();
+            currentHost = new Host();
             currentHost.setName(attributes.getValue(HOST_NAME));
             currentHost.setIp(attributes.getValue(HOST_IP));
             currentHost.setReported(attributes.getValue(HOST_REPORTED));
@@ -47,7 +47,7 @@ public class HostInfoService {
         }
     }
     
-    public void setInfoToHost(List<MetricInfo> metric, String qName) {
+    public void setInfoToHost(List<Metric> metric, String qName) {
         if(HOST.equals(qName)){
             currentHost.setMetric(metric);
             host.add(currentHost);

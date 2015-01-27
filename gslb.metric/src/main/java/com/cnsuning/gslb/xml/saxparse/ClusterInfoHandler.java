@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.xml.sax.Attributes;
 
-import com.cnsuning.gslb.node.model.ClusterInfo;
-import com.cnsuning.gslb.node.model.HostInfo;
+import com.cnsuning.gslb.node.model.Cluster;
+import com.cnsuning.gslb.node.model.Host;
 
 
-public class ClusterInfoService {
+public class ClusterInfoHandler {
     /* Cluster related info.*/
-    private static List<ClusterInfo> cluster;
-    private static ClusterInfo currentCluster;
+    private static List<Cluster> cluster;
+    private static Cluster currentCluster;
     private static final String CLUSTER = "CLUSTER";
     private static final String CLUSTER_NAME = "NAME";
     private static final String CLUSTER_LOCALTIME = "LOCALTIME";
@@ -20,18 +20,18 @@ public class ClusterInfoService {
     private static final String CLUSTER_LATLONG = "LATLONG";
     private static final String CLUSTER_URL = "URL";
     
-    public List<ClusterInfo> getCluster() {
+    public List<Cluster> getCluster() {
         return cluster;
     }
 
-    public ClusterInfoService() {
-        cluster = new ArrayList<ClusterInfo>();
+    public ClusterInfoHandler() {
+        cluster = new ArrayList<Cluster>();
     }
 
     /* Initial the cluster's data */
     public void initClusterInfo(String qName, Attributes attributes) {
         if(CLUSTER.equals(qName)){
-            currentCluster = new ClusterInfo();
+            currentCluster = new Cluster();
             currentCluster.setName(attributes.getValue(CLUSTER_NAME));
             currentCluster.setLatlong(attributes.getValue(CLUSTER_LATLONG));
             currentCluster.setLocaltime(attributes.getValue(CLUSTER_LOCALTIME));
@@ -40,7 +40,7 @@ public class ClusterInfoService {
         }
     }
     
-    public void setInfoToCluster(List<HostInfo> host, String qName) {
+    public void setInfoToCluster(List<Host> host, String qName) {
         if(CLUSTER.equals(qName)){
             currentCluster.setHost(host);
             cluster.add(currentCluster);

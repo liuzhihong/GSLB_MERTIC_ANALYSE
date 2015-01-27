@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.xml.sax.Attributes;
 
-import com.cnsuning.gslb.node.model.ExtraDataInfo;
-import com.cnsuning.gslb.node.model.MetricInfo;
+import com.cnsuning.gslb.node.model.ExtraData;
+import com.cnsuning.gslb.node.model.Metric;
 
 
-public class MetricInfoService {
+public class MetricInfoHandler {
     /* Metric related info.*/
-    private static List<MetricInfo> metric;
-    private static MetricInfo currentMetric;
+    private static List<Metric> metric;
+    private static Metric currentMetric;
     private static final String METRIC = "METRIC";
     private static final  String METRIC_NAME = "NAME";
     private static final  String METRIC_VAL = "VAL";
@@ -24,18 +24,18 @@ public class MetricInfoService {
     private static final  String METRIC_SLOPE = "SLOPE";
     private static final  String METRIC_SOURCE = "SOURCE";
     
-    public List<MetricInfo> getMetric() {
+    public List<Metric> getMetric() {
         return metric;
     }
     
-    public MetricInfoService() {
-        metric = new ArrayList<MetricInfo>();
+    public MetricInfoHandler() {
+        metric = new ArrayList<Metric>();
     }
 
     /* Initial the metric's data */
     public void initMetricInfo(String qName, Attributes attributes) {
         if(METRIC.equals(qName)){
-            currentMetric = new MetricInfo();
+            currentMetric = new Metric();
             currentMetric.setName(attributes.getValue(METRIC_NAME));
             currentMetric.setVal(attributes.getValue(METRIC_VAL));
             currentMetric.setType(attributes.getValue(METRIC_TYPE));
@@ -48,7 +48,7 @@ public class MetricInfoService {
         }
     }
     
-    public void setInfoToMetric(ExtraDataInfo extraData, String qName) {
+    public void setInfoToMetric(ExtraData extraData, String qName) {
         if(METRIC.equals(qName)){
             currentMetric.setExtra_data(extraData);
             metric.add(currentMetric);

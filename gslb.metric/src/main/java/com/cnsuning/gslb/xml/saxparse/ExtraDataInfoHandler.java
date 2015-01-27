@@ -2,32 +2,32 @@ package com.cnsuning.gslb.xml.saxparse;
 
 import java.util.List;
 
-import com.cnsuning.gslb.node.model.ExtraDataInfo;
-import com.cnsuning.gslb.node.model.ExtraElementInfo;
+import com.cnsuning.gslb.node.model.ExtraData;
+import com.cnsuning.gslb.node.model.ExtraElement;
 
-public class ExtraDataInfoService {
+public class ExtraDataInfoHandler {
     
     /* EXTRA_DATA related info.*/
     private static final String EXTRA_DATA = "EXTRA_DATA";
-    private static ExtraDataInfo extraData;
-    private static ExtraDataInfo currentExtraData;
+    private static ExtraData extraData;
+    private static ExtraData currentExtraData;
     
-    public ExtraDataInfo getExtraData() {
+    public ExtraData getExtraData() {
         return extraData;
     }
     
-    public ExtraDataInfoService() {
-        extraData = new ExtraDataInfo();
+    public ExtraDataInfoHandler() {
+        extraData = new ExtraData();
     }
     
     /* Initial the extra data in metric*/
     public void initExtraDataInfo(String qName) {
         if(EXTRA_DATA.equals(qName)){
-            currentExtraData = new ExtraDataInfo();
+            currentExtraData = new ExtraData();
         }
     }
     
-    public void setInfoToExtraData(List<ExtraElementInfo> extraElement, String qName) {
+    public void setInfoToExtraData(List<ExtraElement> extraElement, String qName) {
         if(EXTRA_DATA.equals(qName)){
             currentExtraData.setExtra_element(extraElement);
             extraData = currentExtraData;
