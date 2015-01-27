@@ -3,8 +3,8 @@ package com.cnsuning.gslb.node.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Host {
-    private List<Metric> metric = new ArrayList<Metric>();
+public class HostInfo {
+    private List<MetricInfo> metric = new ArrayList<MetricInfo>();
     private String name;
     private String ip;
     private String reported;
@@ -15,11 +15,11 @@ public class Host {
     private String gmond_stated;
     private String tags;
     
-    public List<Metric> getMetric() {
+    public List<MetricInfo> getMetric() {
         return metric;
     }
     
-    public void setMetric(List<Metric> metric) {
+    public void setMetric(List<MetricInfo> metric) {
         this.metric = metric;
     }
 

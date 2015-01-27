@@ -1,6 +1,6 @@
 package com.cnsuning.gslb.node.model;
 
-public class ExtraElement {
+public class ExtraElementInfo {
     private String name;
     private String val;
     

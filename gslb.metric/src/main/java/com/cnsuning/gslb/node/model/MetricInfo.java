@@ -1,10 +1,7 @@
 package com.cnsuning.gslb.node.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Metric {
-    private ExtraData extra_data = new ExtraData();
+public class MetricInfo {
+    private ExtraDataInfo extra_data = new ExtraDataInfo();
     private String name;
     private String val;
     private String type;
@@ -15,10 +12,10 @@ public class Metric {
     private String slope;
     private String source;
 
-    public ExtraData getExtra_data() {
+    public ExtraDataInfo getExtra_data() {
         return extra_data;
     }
-    public void setExtra_data(ExtraData extra_data) {
+    public void setExtra_data(ExtraDataInfo extra_data) {
         this.extra_data = extra_data;
     }
     public String getName() {
