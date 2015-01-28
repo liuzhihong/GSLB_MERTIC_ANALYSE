@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"file:///G:/project/spmvc01/src/main/resources/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suning.gslb.metric.dao.ThresholdDao" >
+	<select id="selectThresholdValue" parameterType="String" resultType="double">
+		select alarm_value from tb_data_dictionary
+		<where>
+			<if test="metricName != null">
+				param_name = #{metricName,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	<update id="updateThresholdValue">
+		update tb_data_dictionary
+			<set>
+				alarm_value = #{thresholdValue}
+			</set>
+			<where>
+				param_name = #{metric}
+			</where>
+	</update>
+</mapper>
