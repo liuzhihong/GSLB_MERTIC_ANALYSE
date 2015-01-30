@@ -3,6 +3,7 @@ package com.cnsuning.gslb.xml.saxparse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.Stack;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -23,7 +24,7 @@ public class GmatedDataParse extends DefaultHandler {
     private static final String NODE_ADDRESS = "192.168.192.137";
     private static final int NODE_PORT = 8651;
     
-//    private Stack<InputStream> stack = new Stack<InputStream>();
+    private Stack<InputStream> stack = new Stack<InputStream>();
 
     public void getDataFromGmated() throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory parserFactory = SAXParserFactory.newInstance();
@@ -35,9 +36,9 @@ public class GmatedDataParse extends DefaultHandler {
 
     private void parseDataFromGmated(SAXParser parser, InputStream is)
             throws IOException, SAXException {
-//        if (is.available() > 0) {
-//            stack.push(is);
-//        }
+        if (is.available() > 0) {
+            stack.push(is);
+        }
         parser.parse(is, this);
     }
 
@@ -50,23 +51,23 @@ public class GmatedDataParse extends DefaultHandler {
     }
     
     public void endDocument() throws SAXException {
-//        isStackEmpty();
+        isStackEmpty();
         System.out.println("EXTRA_ELEMENT = "+ clusterInfoService.getCluster().get(0).getHost().get(0).getMetric().get(0).getExtra_data().getExtra_element().get(0).getName());
     }
 
-//    private void isStackEmpty() throws SAXException {
-//        if (!stack.empty()) {
-//            InputStream is = stack.pop();
-//            if (is != null) {
-//                try {
-//                    is.close();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                    throw new SAXException(e.getMessage());
-//                }
-//            }
-//        }
-//    }
+    private void isStackEmpty() throws SAXException {
+        if (!stack.empty()) {
+            InputStream is = stack.pop();
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new SAXException(e.getMessage());
+                }
+            }
+        }
+    }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException {

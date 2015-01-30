@@ -12,7 +12,7 @@ public class HostInfoHandler {
     /* Host related info.*/
     private static List<Host> host;
     private static Host currentHost;
-    private static final String HOST = "HOST";
+    private static final  String HOST = "HOST";
     private static final  String HOST_NAME = "NAME";
     private static final  String HOST_IP = "IP";
     private static final  String HOST_REPORTED = "REPORTED";
