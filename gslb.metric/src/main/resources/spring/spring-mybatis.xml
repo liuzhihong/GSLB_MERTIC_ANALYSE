@@ -35,7 +35,7 @@
 	<!-- 指定mybatis搜索的范围 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.suning.gslb.metric.dao"/>
-		<property name="markerInterface" value="com.suning.gslb.metric.dao.SupperDao"/>
+		<!-- <property name="markerInterface" value="com.suning.gslb.metric.dao.SupperDao"/> -->
 	</bean>
 	<!-- 配置事务管理器 -->
 	<bean id="tManager"

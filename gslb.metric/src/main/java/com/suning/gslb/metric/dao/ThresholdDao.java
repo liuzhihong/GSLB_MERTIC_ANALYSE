@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-public interface ThresholdDao extends SupperDao{
+public interface ThresholdDao{
     
     double selectThresholdValue(@Param(value="metricName") String metricName);
     
