@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClusterEntity {
-    private List<Host> host = new ArrayList<Host>();
+    private List<HostEntity> host = new ArrayList<HostEntity>();
     private String name;
     private String localtime;
     private String owner;
     private String latlong;
     private String url;
 
-    public List<Host> getHost() {
+    public List<HostEntity> getHost() {
         return host;
     }
-    public void setHost(List<Host> host) {
+    public void setHost(List<HostEntity> host) {
         this.host = host;
     }
     public String getName() {
