@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suning.gslb.metric.dao.MachineAlarmRecorderBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.cnsuning.gslb.node.biz.model.MachineAlarmRecorderModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="base_id" property="baseId" jdbcType="INTEGER" />
+    <result column="device_id" property="deviceId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, base_id, device_id
+  </sql>
+  <insert id="insertDeviceAlarmEntity" 
+    parameterType="com.cnsuning.gslb.node.biz.model.MachineAlarmRecorderModel">
+    insert into tb_device_alarm_history
+    (id, base_id, device_id)
+    values 
+    (#{id,jdbcType=INTEGER}, #{baseId,jdbcType=INTEGER},
+    #{deviceId,jdbcType=INTEGER})
+  </insert>
+</mapper>

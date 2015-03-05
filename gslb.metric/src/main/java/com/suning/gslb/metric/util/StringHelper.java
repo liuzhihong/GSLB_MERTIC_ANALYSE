@@ -5,9 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * 类StringHelper.java的实现描�? * @author karry 2014-10-28 下午6:05:58
- */
+
 public class StringHelper {
 	
 	public static final String EMPTY_STRING = "";

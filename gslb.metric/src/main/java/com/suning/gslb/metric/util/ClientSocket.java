@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class ClientSocket {
     
+    @SuppressWarnings("unused")
     private String connectionName;
     private ConnectionState connectionState = ConnectionState.DISCONNECTED;
     private static Map<String,ClientSocket> cache = Collections.synchronizedMap(new HashMap<String,ClientSocket>());
@@ -39,15 +40,12 @@ public class ClientSocket {
     }
     
     public InputStream getInputStream(){
-        try {
-            socket = new Socket(this.host_ip, this.port);
-            inputStream = socket.getInputStream();
-            if(socket.isConnected()) 
-                connectionState = ConnectionState.CONNECTED;
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+        if(connect()){
+            try {
+                inputStream = socket.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return inputStream;
     }
@@ -57,5 +55,20 @@ public class ClientSocket {
     }
     boolean isConnected(){
         return connectionState.equals(ConnectionState.CONNECTED);
+    }
+    
+    private boolean connect(){
+        try {
+            this.socket = new Socket(this.host_ip, this.port);
+            if(socket.isConnected()){
+                this.connectionState = ConnectionState.CONNECTED;
+                return true;
+            }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

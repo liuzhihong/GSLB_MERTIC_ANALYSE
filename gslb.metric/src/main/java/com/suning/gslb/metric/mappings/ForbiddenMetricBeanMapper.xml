@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suning.gslb.metric.dao.ForbiddenMetricBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.cnsuning.gslb.node.biz.model.ForbiddenMetricModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="param_id" property="paramId" jdbcType="INTEGER" />
+    <result column="device_id" property="deviceId" jdbcType="INTEGER"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    param_id,device_id,remark
+  </sql>
+  <select id="getAllForbiddenMetrics" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_disable_data
+  </select>
+</mapper>

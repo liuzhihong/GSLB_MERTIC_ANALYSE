@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suning.gslb.metric.dao.BaseAlarmBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.cnsuning.gslb.node.biz.model.BaseAlarmModel" >
+    <id column="base_id" property="baseId" jdbcType="INTEGER" />
+    <result column="param_id" property="paramId" jdbcType="INTEGER" />
+    <result column="alarm_content" property="alarmContent" jdbcType="VARCHAR" />
+    <result column="current_value" property="currentValue" jdbcType="DOUBLE" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    base_id, param_id, alarm_content, current_value, start_time
+  </sql>
+  <select id="getBaseAlarmEntity" resultMap="BaseResultMap"
+        parameterType="Integer">
+        select
+        <include refid="Base_Column_List" />
+        from tb_alarm_base
+        where base_id = #{baseId,jdbcType=INTEGER}
+  </select>
+  <insert id="insertAlarmEntityAndGetBaseId" keyProperty="baseId"
+  parameterType="com.cnsuning.gslb.node.biz.model.BaseAlarmModel" useGeneratedKeys="true">
+    insert into tb_alarm_base 
+    (param_id, alarm_content, current_value, start_time)
+    values 
+    (#{paramId,jdbcType=INTEGER},
+    #{alarmContent,jdbcType=VARCHAR}, #{currentValue,jdbcType=DOUBLE},
+    #{startTime,jdbcType=TIMESTAMP})
+  </insert>
+  <delete id="delete" parameterType="com.cnsuning.gslb.node.biz.model.BaseAlarmModel">
+        delete from tb_alarm_base
+        where base_id = #{baseId,jdbcType=INTEGER}
+  </delete>
+  <update id="updateAlarmTable" parameterType="com.cnsuning.gslb.node.biz.model.BaseAlarmModel">
+        update tb_alarm_base
+        set alarm_content = #{alarmContent,jdbcType=VARCHAR},
+        current_value = #{currentValue,jdbcType=DOUBLE}
+        where base_id = #{baseId,jdbcType=INTEGER}
+  </update>
+</mapper>

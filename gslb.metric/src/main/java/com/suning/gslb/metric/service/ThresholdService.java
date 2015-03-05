@@ -4,11 +4,10 @@ import java.util.Map;
 
 /**
  * 
- * 告警阈值服务层:包括对应指标阈值的查找、调整...
+ * 鏍规嵁鍙傛暟鍊兼煡鎵炬寚鏍囬槇鍊硷紝璋冩暣
  *
  * @author 13073050
- * @see [相关类/方法]（可选）
- * @since [产品/模块版本] （可选）
+ * 
  */
 public interface ThresholdService {
     

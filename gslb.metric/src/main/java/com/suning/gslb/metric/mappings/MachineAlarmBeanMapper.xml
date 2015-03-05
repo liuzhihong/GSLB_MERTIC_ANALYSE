@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.suning.gslb.metric.dao.MachineAlarmBeanMapper" >
+  <resultMap id="BaseResultMap" type="com.cnsuning.gslb.node.biz.model.MachineAlarmModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="base_id" property="baseId" jdbcType="INTEGER" />
+    <result column="device_id" property="deviceId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, base_id, device_id
+  </sql>
+  <select id="getAllDeviceAlarmEntity" resultMap="BaseResultMap"
+        parameterType="com.cnsuning.gslb.node.biz.model.MachineAlarmModel">
+        select
+        <include refid="Base_Column_List" />
+        from tb_device_alarm
+  </select>
+  <insert id="insertDeviceAlarmEntity" 
+    parameterType="com.cnsuning.gslb.node.biz.model.MachineAlarmModel">
+    insert into tb_device_alarm
+    (id, base_id, device_id)
+    values 
+    (#{id,jdbcType=INTEGER}, #{baseId,jdbcType=INTEGER},
+    #{deviceId,jdbcType=INTEGER})
+  </insert>
+  <delete id="delete" parameterType="com.cnsuning.gslb.node.biz.model.MachineAlarmModel">
+        delete from tb_device_alarm
+        where id = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

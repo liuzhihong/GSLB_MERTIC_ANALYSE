@@ -3,7 +3,6 @@ package com.cnsuning.gslb.xml.saxparse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
-import java.util.Stack;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -13,32 +12,54 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-
 public class GmatedDataParse extends DefaultHandler {
+    
+    private static final String EXTRA_ELEMENT = "EXTRA_ELEMENT";
+    private static final String EXTRA_DATA = "EXTRA_DATA";
+    private static final String METRIC = "METRIC";
+    private static final String HOST = "HOST";
+    private static final String CLUSTER = "CLUSTER";
     
     private static ClusterInfoHandler clusterInfoService;
     private static HostInfoHandler hostInfoService;
     private static MetricInfoHandler metricInfoService;
     private static ExtraDataInfoHandler extraDataInfoService;
     private static ExtraElementInfoHandler extraElementInfoService;
-    private static final String NODE_ADDRESS = "192.168.192.137";
-    private static final int NODE_PORT = 8651;
     
-    private Stack<InputStream> stack = new Stack<InputStream>();
-
-    public void getDataFromGmated() throws ParserConfigurationException, SAXException, IOException {
+    
+    private static GmatedDataParse inst = new GmatedDataParse();
+    
+    public static GmatedDataParse getInstance() {
+        return inst;
+    }
+    
+    public void startParse(String nodeAddress, int nodePort) {
+        try {
+            parse(nodeAddress, nodePort);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void parse(String node_address, int node_port) throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory parserFactory = SAXParserFactory.newInstance();
         parserFactory.setValidating(true);
         SAXParser parser = parserFactory.newSAXParser();
-        InputStream is = new Socket(NODE_ADDRESS, NODE_PORT).getInputStream();
+        InputStream is = new Socket(node_address, node_port).getInputStream();
+        int repeatTimes = 0;
+        while(is == null && repeatTimes < 3){
+            repeatTimes++;
+            is = new Socket(node_address, node_port).getInputStream();
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+            }
+        }
         parseDataFromGmated(parser, is);
     }
-
+    
     private void parseDataFromGmated(SAXParser parser, InputStream is)
             throws IOException, SAXException {
-        if (is.available() > 0) {
-            stack.push(is);
-        }
         parser.parse(is, this);
     }
 
@@ -50,41 +71,66 @@ public class GmatedDataParse extends DefaultHandler {
         extraElementInfoService = new ExtraElementInfoHandler();
     }
     
-    public void endDocument() throws SAXException {
-        isStackEmpty();
-        System.out.println("EXTRA_ELEMENT = "+ clusterInfoService.getCluster().get(0).getHost().get(0).getMetric().get(0).getExtra_data().getExtra_element().get(0).getName());
-    }
-
-    private void isStackEmpty() throws SAXException {
-        if (!stack.empty()) {
-            InputStream is = stack.pop();
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new SAXException(e.getMessage());
-                }
-            }
-        }
-    }
+//    public void endDocument() throws SAXException {
+//        System.out.println("Cluster Size = " + clusterInfoService.getCluster().size());
+//        List<MetricEntity> metricList = clusterInfoService.getCluster().get(3).getHost().get(2).getMetric();
+//        Iterator<MetricEntity> metricListIterator = metricList.iterator();
+//        while(metricListIterator.hasNext()){
+//            MetricEntity metric = metricListIterator.next();
+//            if("swap_free".equals(metric.getName())){
+//                System.out.println("swap_free = "+ metric.getVal());
+//            }
+//        }
+//        
+//        List<MetricEntity> metricList1 = clusterInfoService.getCluster().get(3).getHost().get(3).getMetric();
+//        Iterator<MetricEntity> metricListIterator1 = metricList1.iterator();
+//        while(metricListIterator1.hasNext()){
+//            MetricEntity metric = metricListIterator1.next();
+//            if("swap_free".equals(metric.getName())){
+//                System.out.println("swap_free = "+ metric.getVal());
+//            }
+//        }
+//        
+//    }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException {
-        clusterInfoService.initClusterInfo(qName, attributes);
-        hostInfoService.initHostInfo(qName, attributes);
-        metricInfoService.initMetricInfo(qName, attributes);
-        extraDataInfoService.initExtraDataInfo(qName);
-        extraElementInfoService.initExtraElementInfo(qName, attributes);
-        
+        if(CLUSTER.equals(qName)){
+            clusterInfoService.initClusterInfo(attributes);
+        }
+        if(HOST.equals(qName)){
+            hostInfoService.initHostInfo(attributes);
+        }
+        if(METRIC.equals(qName)){
+            metricInfoService.initMetricInfo(attributes);
+        }
+        if(EXTRA_DATA.equals(qName)){
+            extraDataInfoService.initExtraDataInfo();
+        }
+        if(EXTRA_ELEMENT.equals(qName)){
+            extraElementInfoService.initExtraElementInfo(attributes);
+        }
     }
 
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
-        extraElementInfoService.setInfoToExtraElement(qName);
-        extraDataInfoService.setInfoToExtraData(extraElementInfoService.getExtraElement(), qName);
-        metricInfoService.setInfoToMetric(extraDataInfoService.getExtraData(), qName);
-        hostInfoService.setInfoToHost(metricInfoService.getMetric(), qName);
-        clusterInfoService.setInfoToCluster(hostInfoService.getHost(), qName);
+        if(EXTRA_ELEMENT.equals(qName)){
+            extraElementInfoService.setInfoToExtraElement();
+        }
+        if(EXTRA_DATA.equals(qName)){
+            extraDataInfoService.setInfoToExtraData(extraElementInfoService.getExtraElement());
+            extraElementInfoService.initExtraElementList();
+        }
+        if(METRIC.equals(qName)){
+            metricInfoService.setInfoToMetric(extraDataInfoService.getExtraData());
+        }
+        if(HOST.equals(qName)){
+            hostInfoService.setInfoToHost(metricInfoService.getMetric());
+            metricInfoService.initMetricList();;
+        }
+        if(CLUSTER.equals(qName)){
+            clusterInfoService.setInfoToCluster(hostInfoService.getHost());
+            hostInfoService.initHostList();
+        }
     }
 }

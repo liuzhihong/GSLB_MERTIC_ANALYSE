@@ -20,12 +20,12 @@ public class ServiceMethodTest {
     @Test
     public void testSelectValue(){
         double v = thresholdService.getThresholdValueByParam("cpu_user");
-        System.out.println("返回值为: "+v);
+        System.out.println("褰撳墠鍊间负: "+v);
     }
     @Test
     public void testUpdateValue(){
         Map<String,Object> param = new HashMap<String, Object>();
-        param.put("thresholdValue",50.0);
+        param.put("thresholdValue",60.0);
         param.put("metric", "cpu_user");
         thresholdService.modifyThresholdValueByParam(param);
         testSelectValue();
