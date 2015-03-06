@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.suning.gslb.metric.dao.CDNNodeAlarmBeanMapper" >
-  <resultMap id="BaseResultMap" type="com.cnsuning.gslb.node.biz.model.CDNNodeAlarmModel" >
+  <resultMap id="BaseResultMap" type="CDNNodeAlarmModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="base_id" property="baseId" jdbcType="INTEGER" />
     <result column="node_id" property="nodeId" jdbcType="INTEGER" />
@@ -10,7 +10,7 @@
     id, base_id, node_id
   </sql>
   <select id="getAllNodeAlarmEntity" resultMap="BaseResultMap"
-        parameterType="com.cnsuning.gslb.node.biz.model.CDNNodeAlarmModel">
+        parameterType="CDNNodeAlarmModel">
         select
         <include refid="Base_Column_List" />
         from tb_node_level_alarm

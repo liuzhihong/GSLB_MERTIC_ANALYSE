@@ -15,11 +15,11 @@ import com.cnsuning.gslb.node.biz.model.CDNNodeAlarmModel;
 import com.cnsuning.gslb.node.biz.model.ForbiddenMetricModel;
 import com.cnsuning.gslb.node.biz.model.MachineAlarmModel;
 import com.cnsuning.gslb.node.biz.model.MachineAlarmRecorderModel;
-import com.cnsuning.gslb.node.model.ClusterEntity;
-import com.cnsuning.gslb.node.model.HostEntity;
-import com.cnsuning.gslb.node.model.MetricEntity;
-import com.suning.gslb.common.model.MachineModel;
-import com.suning.gslb.common.model.MetricThresholdModel;
+import com.cnsuning.gslb.node.biz.model.MachineModel;
+import com.cnsuning.gslb.node.biz.model.MetricThresholdModel;
+import com.cnsuning.gslb.node.data.model.ClusterEntity;
+import com.cnsuning.gslb.node.data.model.HostEntity;
+import com.cnsuning.gslb.node.data.model.MetricEntity;
 
 
 

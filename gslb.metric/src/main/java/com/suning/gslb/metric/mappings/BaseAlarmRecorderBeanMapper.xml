@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.suning.gslb.metric.dao.BaseAlarmRecorderBeanMapper" >
-  <resultMap id="BaseResultMap" type="com.cnsuning.gslb.node.biz.model.BaseAlarmRecorderModel" >
+  <resultMap id="BaseResultMap" type="BaseAlarmRecorderModel" >
     <id column="base_id" property="baseId" jdbcType="INTEGER" />
     <result column="param_id" property="paramId" jdbcType="INTEGER" />
     <result column="alarm_content" property="alarmContent" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
     base_id, param_id, alarm_content, current_value, start_time, end_time
   </sql>
   <insert id="insertAlarmEntityAndGetBaseId" keyProperty="baseId"
-  parameterType="com.cnsuning.gslb.node.biz.model.BaseAlarmRecorderModel" useGeneratedKeys="true">
+  parameterType="BaseAlarmRecorderModel" useGeneratedKeys="true">
     insert into tb_alarm_base_history 
     (param_id, alarm_content, current_value, start_time, end_time)
     values 

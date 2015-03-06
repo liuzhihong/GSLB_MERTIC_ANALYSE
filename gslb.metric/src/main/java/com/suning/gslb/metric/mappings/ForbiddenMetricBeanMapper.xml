@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.suning.gslb.metric.dao.ForbiddenMetricBeanMapper" >
-  <resultMap id="BaseResultMap" type="com.cnsuning.gslb.node.biz.model.ForbiddenMetricModel" >
+  <resultMap id="BaseResultMap" type="ForbiddenMetricModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="param_id" property="paramId" jdbcType="INTEGER" />
     <result column="device_id" property="deviceId" jdbcType="INTEGER"/>
