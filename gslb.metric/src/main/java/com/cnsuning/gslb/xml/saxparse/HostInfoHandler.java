@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.xml.sax.Attributes;
 
-import com.cnsuning.gslb.node.model.HostEntity;
-import com.cnsuning.gslb.node.model.MetricEntity;
+import com.cnsuning.gslb.node.data.model.HostEntity;
+import com.cnsuning.gslb.node.data.model.MetricEntity;
 
 public class HostInfoHandler {
     /* Host related info.*/

@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.xml.sax.Attributes;
 
-import com.cnsuning.gslb.node.model.ExtraElementEntity;
+import com.cnsuning.gslb.node.data.model.ExtraElementEntity;
 
 
 public class ExtraElementInfoHandler {

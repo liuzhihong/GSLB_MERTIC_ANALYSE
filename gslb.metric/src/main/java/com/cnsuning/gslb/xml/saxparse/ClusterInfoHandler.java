@@ -7,8 +7,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.xml.sax.Attributes;
 
-import com.cnsuning.gslb.node.model.ClusterEntity;
-import com.cnsuning.gslb.node.model.HostEntity;
+import com.cnsuning.gslb.node.data.model.ClusterEntity;
+import com.cnsuning.gslb.node.data.model.HostEntity;
 
 
 public class ClusterInfoHandler {

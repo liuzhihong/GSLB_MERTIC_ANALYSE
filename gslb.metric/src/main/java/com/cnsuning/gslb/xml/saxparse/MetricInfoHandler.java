@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.xml.sax.Attributes;
 
-import com.cnsuning.gslb.node.model.ExtraDataEntity;
-import com.cnsuning.gslb.node.model.MetricEntity;
+import com.cnsuning.gslb.node.data.model.ExtraDataEntity;
+import com.cnsuning.gslb.node.data.model.MetricEntity;
 
 
 public class MetricInfoHandler {

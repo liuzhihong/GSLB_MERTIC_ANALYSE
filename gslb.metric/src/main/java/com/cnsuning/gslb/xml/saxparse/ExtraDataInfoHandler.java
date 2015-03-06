@@ -2,8 +2,8 @@ package com.cnsuning.gslb.xml.saxparse;
 
 import java.util.List;
 
-import com.cnsuning.gslb.node.model.ExtraDataEntity;
-import com.cnsuning.gslb.node.model.ExtraElementEntity;
+import com.cnsuning.gslb.node.data.model.ExtraDataEntity;
+import com.cnsuning.gslb.node.data.model.ExtraElementEntity;
 
 public class ExtraDataInfoHandler {
     
