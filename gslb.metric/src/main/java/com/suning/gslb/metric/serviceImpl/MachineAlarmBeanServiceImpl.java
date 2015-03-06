@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cnsuning.gslb.node.biz.model.MachineAlarmModel;
 import com.suning.gslb.metric.dao.MachineAlarmBeanMapper;
 import com.suning.gslb.metric.service.MachineAlarmBeanService;
+import com.suning.gslb.node.biz.model.MachineAlarmModel;
 
 @Service("machineAlarmBeanService")
 public class MachineAlarmBeanServiceImpl implements MachineAlarmBeanService {

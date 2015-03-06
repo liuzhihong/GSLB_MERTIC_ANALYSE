@@ -2,7 +2,7 @@ package com.suning.gslb.metric.service;
 
 import java.util.List;
 
-import com.cnsuning.gslb.node.biz.model.MetricThresholdModel;
+import com.suning.gslb.node.biz.model.MetricThresholdModel;
 
 
 public interface AlarmThresholdBeanService {

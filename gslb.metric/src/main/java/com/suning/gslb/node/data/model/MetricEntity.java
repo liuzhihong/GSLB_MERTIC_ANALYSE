@@ -1,4 +1,4 @@
-package com.cnsuning.gslb.node.data.model;
+package com.suning.gslb.node.data.model;
 
 public class MetricEntity {
     private ExtraDataEntity extra_data = new ExtraDataEntity();

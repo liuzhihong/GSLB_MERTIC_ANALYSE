@@ -1,4 +1,4 @@
-package com.cnsuning.gslb.node.biz.model;
+package com.suning.gslb.node.biz.model;
 
 public class MachineModel {
     /**

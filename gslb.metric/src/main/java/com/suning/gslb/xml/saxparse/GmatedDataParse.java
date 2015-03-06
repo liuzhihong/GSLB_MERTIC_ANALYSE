@@ -1,4 +1,4 @@
-package com.cnsuning.gslb.xml.saxparse;
+package com.suning.gslb.xml.saxparse;
 
 import java.io.IOException;
 import java.io.InputStream;

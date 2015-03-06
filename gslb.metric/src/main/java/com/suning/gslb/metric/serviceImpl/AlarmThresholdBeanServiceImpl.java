@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cnsuning.gslb.node.biz.model.MetricThresholdModel;
 import com.suning.gslb.metric.dao.AlarmThresholdBeanMapper;
 import com.suning.gslb.metric.service.AlarmThresholdBeanService;
+import com.suning.gslb.node.biz.model.MetricThresholdModel;
 
 @Service("alarmThresholdBeanService")
 public class AlarmThresholdBeanServiceImpl implements AlarmThresholdBeanService{

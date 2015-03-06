@@ -2,7 +2,7 @@ package com.suning.gslb.metric.dao;
 
 import java.util.List;
 
-import com.cnsuning.gslb.node.biz.model.MachineAlarmModel;
+import com.suning.gslb.node.biz.model.MachineAlarmModel;
 /**
  * 
  * @author Jeremy Lv

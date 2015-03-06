@@ -1,11 +1,11 @@
-package com.cnsuning.gslb.xml.saxparse;
+package com.suning.gslb.xml.saxparse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.Attributes;
 
-import com.cnsuning.gslb.node.data.model.ExtraElementEntity;
+import com.suning.gslb.node.data.model.ExtraElementEntity;
 
 
 public class ExtraElementInfoHandler {

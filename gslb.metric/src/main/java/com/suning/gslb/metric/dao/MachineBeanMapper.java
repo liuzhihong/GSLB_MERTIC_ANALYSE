@@ -2,7 +2,7 @@ package com.suning.gslb.metric.dao;
 
 import java.util.List;
 
-import com.cnsuning.gslb.node.biz.model.MachineModel;
+import com.suning.gslb.node.biz.model.MachineModel;
 /**
  * 
  * @author Jeremy Lv

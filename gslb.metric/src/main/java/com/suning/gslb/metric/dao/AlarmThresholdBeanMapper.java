@@ -1,7 +1,7 @@
 package com.suning.gslb.metric.dao;
 import java.util.List;
 
-import com.cnsuning.gslb.node.biz.model.MetricThresholdModel;
+import com.suning.gslb.node.biz.model.MetricThresholdModel;
 
 
 /**
