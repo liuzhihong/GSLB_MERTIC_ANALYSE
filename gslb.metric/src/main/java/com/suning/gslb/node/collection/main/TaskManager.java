@@ -70,15 +70,16 @@ public class TaskManager {
     
     private void initDB() {
         ServiceDispatcher serviceDispacher = ServiceDispatcher.getInstance(context);
+        //程序初始化的时候先从数据库把相关的阈值模型和告警模型加载到内存当中
         serviceDispacher.initServiceDispatcher(currentClusterEntityList);
 
       
-        //Only executed when the tb_device_alarm table is empty.
+        //首次数据解析，处理，存入数据库当中
         serviceDispacher.initAlarmTable();
 
-        //Only executed when the tb_device_alarm table need to be updated.
+        //后续指标分析：1、超过阈值，更新指标值；2、低于阈值，警告解除，移入历史表
         serviceDispacher.updateAlarmTable();
-        //Only executed when there's new items need to be inserted to the tb_device_alarm table
+        //若有新的监控指标告警，插入新的告警记录
         serviceDispacher.insertItemsToAlarmTable();
     }
 
