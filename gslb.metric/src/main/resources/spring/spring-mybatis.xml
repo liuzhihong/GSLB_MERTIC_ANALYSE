@@ -30,7 +30,7 @@
 		<!-- <property name="configLocation" value="classpath:mybatis-config.xml"/> -->
 		<property name="mapperLocations" value="classpath:com/suning/gslb/metric/mappings/*.xml" />
 		<!-- 注入别名的包名前缀，这样就可以在mybatis的文件中直接写类名不用写全名了 -->
-		<property name="typeAliasesPackage" value="com.suning.gslb.node.biz.model"/>  
+		<property name="typeAliasesPackage" value="com.suning.gslb.metric.biz.model"/>  
 	</bean>
 	<!-- 指定mybatis搜索的范围 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

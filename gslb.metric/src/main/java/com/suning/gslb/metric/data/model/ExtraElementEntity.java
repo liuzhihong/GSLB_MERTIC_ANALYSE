@@ -1,4 +1,4 @@
-package com.suning.gslb.node.data.model;
+package com.suning.gslb.metric.data.model;
 
 public class ExtraElementEntity {
     private String name;

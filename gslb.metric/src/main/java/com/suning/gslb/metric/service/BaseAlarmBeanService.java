@@ -1,6 +1,6 @@
 package com.suning.gslb.metric.service;
 
-import com.suning.gslb.node.biz.model.BaseAlarmModel;
+import com.suning.gslb.metric.biz.model.BaseAlarmModel;
 
 
 public interface BaseAlarmBeanService {

@@ -1,4 +1,4 @@
-package com.suning.gslb.node.collection.main;
+package com.suning.gslb.metric.collection.main;
 
 
 import java.io.IOException;
@@ -14,10 +14,10 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.suning.gslb.metric.data.model.ClusterEntity;
 import com.suning.gslb.metric.serviceImpl.ServiceDispatcher;
-import com.suning.gslb.node.data.model.ClusterEntity;
-import com.suning.gslb.xml.saxparse.ClusterInfoHandler;
-import com.suning.gslb.xml.saxparse.GmatedDataParse;
+import com.suning.gslb.metric.xml.saxparse.ClusterInfoHandler;
+import com.suning.gslb.metric.xml.saxparse.GmatedDataParse;
 
 /**
  * 

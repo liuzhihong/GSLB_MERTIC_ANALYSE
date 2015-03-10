@@ -1,4 +1,4 @@
-package com.suning.gslb.node.biz.model;
+package com.suning.gslb.metric.biz.model;
 /**
  * 
  * 指标禁用模型

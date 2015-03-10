@@ -1,9 +1,9 @@
-package com.suning.gslb.xml.saxparse;
+package com.suning.gslb.metric.xml.saxparse;
 
 import java.util.List;
 
-import com.suning.gslb.node.data.model.ExtraDataEntity;
-import com.suning.gslb.node.data.model.ExtraElementEntity;
+import com.suning.gslb.metric.data.model.ExtraDataEntity;
+import com.suning.gslb.metric.data.model.ExtraElementEntity;
 
 public class ExtraDataInfoHandler {
     

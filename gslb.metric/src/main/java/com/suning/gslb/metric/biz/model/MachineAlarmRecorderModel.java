@@ -1,4 +1,4 @@
-package com.suning.gslb.node.biz.model;
+package com.suning.gslb.metric.biz.model;
 /**
  * 
  * 机器告警历史模型

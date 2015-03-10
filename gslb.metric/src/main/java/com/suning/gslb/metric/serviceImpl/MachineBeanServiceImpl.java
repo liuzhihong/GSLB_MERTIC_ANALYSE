@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.suning.gslb.metric.biz.model.MachineModel;
 import com.suning.gslb.metric.dao.MachineBeanMapper;
 import com.suning.gslb.metric.service.MachineBeanService;
-import com.suning.gslb.node.biz.model.MachineModel;
 
 @Service("machineBeanService")
 public class MachineBeanServiceImpl implements MachineBeanService {

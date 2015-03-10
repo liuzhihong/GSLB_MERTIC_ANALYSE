@@ -2,7 +2,7 @@ package com.suning.gslb.metric.service;
 
 import java.util.List;
 
-import com.suning.gslb.node.biz.model.ForbiddenMetricModel;
+import com.suning.gslb.metric.biz.model.ForbiddenMetricModel;
 
 public interface ForbiddenMetricBeanService {
     /**

@@ -1,4 +1,4 @@
-package com.suning.gslb.node.biz.model;
+package com.suning.gslb.metric.biz.model;
 
 public class MachineAlarmModel {
     private int id;

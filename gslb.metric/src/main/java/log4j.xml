@@ -38,7 +38,7 @@
     <!-- ===================================================================== -->
 
     <logger name="com.suning.gslb.metric.serviceImpl" additivity="false">
-        <level value="debug"/>
+        <level value="info"/>
         <appender-ref ref="BUSSINESS"/>
     </logger>	
 

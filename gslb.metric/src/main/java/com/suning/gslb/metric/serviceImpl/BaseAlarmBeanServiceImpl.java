@@ -4,9 +4,9 @@ package com.suning.gslb.metric.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.suning.gslb.metric.biz.model.BaseAlarmModel;
 import com.suning.gslb.metric.dao.BaseAlarmBeanMapper;
 import com.suning.gslb.metric.service.BaseAlarmBeanService;
-import com.suning.gslb.node.biz.model.BaseAlarmModel;
 
 @Service("baseAlarmBeanService")
 public class BaseAlarmBeanServiceImpl implements BaseAlarmBeanService {

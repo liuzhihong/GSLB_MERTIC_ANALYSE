@@ -1,4 +1,4 @@
-package com.suning.gslb.xml.saxparse;
+package com.suning.gslb.metric.xml.saxparse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.xml.sax.Attributes;
 
-import com.suning.gslb.node.data.model.ClusterEntity;
-import com.suning.gslb.node.data.model.HostEntity;
+import com.suning.gslb.metric.data.model.ClusterEntity;
+import com.suning.gslb.metric.data.model.HostEntity;
 
 
 public class ClusterInfoHandler {

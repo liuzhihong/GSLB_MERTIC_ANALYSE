@@ -1,6 +1,6 @@
 package com.suning.gslb.metric.dao;
 
-import com.suning.gslb.node.biz.model.MachineAlarmRecorderModel;
+import com.suning.gslb.metric.biz.model.MachineAlarmRecorderModel;
 
 /**
  * 

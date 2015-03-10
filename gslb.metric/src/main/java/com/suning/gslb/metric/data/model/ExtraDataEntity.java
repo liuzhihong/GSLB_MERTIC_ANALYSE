@@ -1,4 +1,4 @@
-package com.suning.gslb.node.data.model;
+package com.suning.gslb.metric.data.model;
 
 import java.util.ArrayList;
 import java.util.List;

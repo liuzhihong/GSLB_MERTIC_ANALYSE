@@ -1,12 +1,12 @@
-package com.suning.gslb.xml.saxparse;
+package com.suning.gslb.metric.xml.saxparse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.xml.sax.Attributes;
 
-import com.suning.gslb.node.data.model.HostEntity;
-import com.suning.gslb.node.data.model.MetricEntity;
+import com.suning.gslb.metric.data.model.HostEntity;
+import com.suning.gslb.metric.data.model.MetricEntity;
 
 public class HostInfoHandler {
     /* Host related info.*/
