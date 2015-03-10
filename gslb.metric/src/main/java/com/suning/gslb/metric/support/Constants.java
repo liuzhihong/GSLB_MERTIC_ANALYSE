@@ -1,13 +1,25 @@
 package com.suning.gslb.metric.support;
 
-/**
- * 类Constants.java的实现描述：RT
- * @author karry 2014-10-24 下午12:45:28
- */
 public abstract class Constants {
 	
-	public static final String COMMON_CONF_FILE = "/common_conf.properties";
+	public static final String COMMON_CONF_FILE = "/conf/common_conf.properties";
 	
-	public static final String YANGZHOU_NODE_IP = "yangzhou_node_ip";
-	public static final String YANGZHOU_NODE_PORT = "yangzhou_node_port";
+	public static final String MEMORY_TOTAL = "mem_total";
+	
+	public static final String CPU_USER = "cpu_user";
+	
+	public static final String CPU_SYSTEM = "cpu_system";
+	
+	public static final String CPU_IDLE = "cpu_idle";
+
+	public static final String MEM_FREE = "mem_free";
+	
+	public static final String MEM_CACHED = "mem_cached";
+	
+	public static final String SWAP_FREE = "swap_free";
+	
+	public static final String BYTES_IN = "bytes_in";
+	
+	public static final String BYTES_OUT = "bytes_out";
+	
 }

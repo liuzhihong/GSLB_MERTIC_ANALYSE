@@ -1,5 +1,6 @@
 package com.suning.gslb.metric.serviceImpl;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 
 import com.suning.gslb.metric.service.AlarmThresholdBeanService;
@@ -17,6 +19,7 @@ import com.suning.gslb.metric.service.ForbiddenMetricBeanService;
 import com.suning.gslb.metric.service.MachineAlarmBeanService;
 import com.suning.gslb.metric.service.MachineAlarmRecorderBeanService;
 import com.suning.gslb.metric.service.MachineBeanService;
+import com.suning.gslb.metric.support.Constants;
 import com.suning.gslb.node.biz.model.BaseAlarmModel;
 import com.suning.gslb.node.biz.model.BaseAlarmRecorderModel;
 import com.suning.gslb.node.biz.model.CDNNodeAlarmModel;
@@ -63,6 +66,8 @@ public class ServiceDispatcher {
     
     private static ServiceDispatcher inst = new ServiceDispatcher();
     
+    private static final Logger logger = Logger.getLogger(ServiceDispatcher.class);
+    
     public static ServiceDispatcher getInstance(ApplicationContext context) {
         alarmThresholdBeanService = (AlarmThresholdBeanService) context.getBean("alarmThresholdBeanService");
         machineBeanService = (MachineBeanService) context.getBean("machineBeanService");
@@ -87,6 +92,7 @@ public class ServiceDispatcher {
      * @param currentClusterEntityList 
      */
     public void initServiceDispatcher(List<ClusterEntity> currentClusterEntityList) {
+        logger.info("根据解析出来的集群模型去数据库初始化业务模型!");
         initAlarmThresHoldMap();
         hostEntityList = getAllHostEntity();
         //查找当前机器告警表里面的记录
@@ -96,6 +102,7 @@ public class ServiceDispatcher {
         //查找所有的禁用指标记录
         forbiddenMetricList = getAllForbiddenMetricEntity();
         if(isEntityListEmpty()){
+            logger.warn("初始化业务模型失败!");
             return;
         }
         for(ClusterEntity clusterInfo : currentClusterEntityList){
@@ -165,6 +172,7 @@ public class ServiceDispatcher {
             return;
         }
         if(storedDeviceAlarmEntityList.size() == 0){
+            logger.info("初始化数据库机器告警表和基础告警表!");
             for(MachineAlarmModel machineModel : currentDeviceAlarmEntityList){
                 boolean flag = true;
                 if(forbiddenMetricList.size() > 0){
@@ -185,6 +193,7 @@ public class ServiceDispatcher {
                     baseAlarmModel.setStartTime(new Date());
                     insertAlarmEntityAndGetBaseId(baseAlarmModel);
                     int baseId = baseAlarmModel.getBaseId();
+                    logger.info("初始化告警记录成功，告警ID为: "+baseId);
                     //在这一步当前机器告警列表里面的数据有了变化，部分记录有了base_id，表示存储数据库
                     machineModel.setBaseId(baseId);
                     insertDeviceAlarmTable(machineModel);
@@ -219,7 +228,7 @@ public class ServiceDispatcher {
         String alarm_Message = "The current value of " + param_Name 
                 + " in the host " + device_Name 
                 + " is " + current_Value 
-                + " which is above " + threshold 
+                + " however the threshold is " + threshold 
                 + ", please notice it.";
         return alarm_Message;
     }
@@ -276,6 +285,7 @@ public class ServiceDispatcher {
                 baseAlarmEntity.setStartTime(new Date());
                 insertAlarmEntityAndGetBaseId(baseAlarmEntity);
                 int baseId = baseAlarmEntity.getBaseId();
+                logger.info("新增告警记录成功，告警ID为: "+baseId);
                 currAlarmModel.setBaseId(baseId);
                 insertDeviceAlarmTable(currAlarmModel); 
             }
@@ -306,6 +316,9 @@ public class ServiceDispatcher {
         MachineAlarmModel currentAlarmModel = null;
         for(MachineAlarmModel alarmModel : currentDeviceAlarmEntityList){
             if(isExistAlarmRecord(storedDeviceAlarmEntity, alarmModel)){
+                logger.info("上一次机器指标告警参数值为: "+storedDeviceAlarmEntity.getBaseAlarmEntity().getCurrentValue()
+                        +"告警参数Id为: "+storedDeviceAlarmEntity.getBaseAlarmEntity().getParamId());
+                logger.info("当前同一指标告警值为: "+alarmModel.getBaseAlarmEntity().getCurrentValue()); 
                 flag &= false;
                 currentAlarmModel = alarmModel;
                 break;
@@ -391,6 +404,7 @@ public class ServiceDispatcher {
             HostEntity hostInfo) {
         //if the illegalMetricMap is null, then return and will not update the tb_alarm table.
         if(illegalMetricMap.size()==0){
+            logger.warn("当前监控指标无告警现象!");
             return;
         }
         
@@ -401,7 +415,9 @@ public class ServiceDispatcher {
                 break;
             }
         }
-        
+        /**
+         * 一台机器上存在多个指标告警
+         */
         for(Map.Entry<String, Double> entry : illegalMetricMap.entrySet()){
             MachineAlarmModel deviceAlarmEntity = new MachineAlarmModel();
             BaseAlarmModel baseAlarmEntity = new BaseAlarmModel();
@@ -437,6 +453,12 @@ public class ServiceDispatcher {
      */
     private HashMap<String, Double> getIllegalMetricElement(List<MetricEntity> metricInfoList) {
         HashMap<String, Double> illegalMetricMap = new HashMap<String, Double>();
+        double totalMemory = 0;
+        for(MetricEntity me : metricInfoList){
+            if(Constants.MEMORY_TOTAL.equals(me.getName())){
+                totalMemory = Double.parseDouble(me.getVal());
+            }
+        }
         if(alarmThresholdMap.isEmpty()){
             return illegalMetricMap;
         }
@@ -444,14 +466,43 @@ public class ServiceDispatcher {
             String metricName = metricEntity.getName();
             if(alarmThresholdMap.containsKey(metricName)){
                 double value = Double.parseDouble(metricEntity.getVal());
-                if(value > alarmThresholdMap.get(metricName)){
-                    illegalMetricMap.put(metricName, value);
+                //对原始数据进行转换百分比换算
+                double retValue = processValueResult(metricName,value,totalMemory);
+                if(metricName.equals(Constants.CPU_IDLE) || metricName.equals(Constants.MEM_FREE)
+                        || metricName.equals(Constants.SWAP_FREE)){
+                    if(retValue < alarmThresholdMap.get(metricName)){
+                        illegalMetricMap.put(metricName, retValue);
+                    }
+                } else {
+                    if(retValue > alarmThresholdMap.get(metricName)){
+                        illegalMetricMap.put(metricName, retValue);
+                    }
                 }
             }
         }
         return illegalMetricMap;        
     }
     
+    private double processValueResult(String metricName , double value , double totalMemory) {
+        if(metricName.equals(Constants.CPU_USER) || metricName.equals(Constants.CPU_SYSTEM) 
+                || metricName.equals(Constants.CPU_IDLE)){
+            return value*100;
+        }
+        if(metricName.equals(Constants.MEM_CACHED) || metricName.equals(Constants.MEM_FREE)
+                || metricName.equals(Constants.SWAP_FREE)){
+            try {
+                double tempValue = Double.parseDouble((new DecimalFormat("#.##").format(value/totalMemory)));
+                return tempValue*100;
+            } catch (Exception e) {
+                logger.error(e.getMessage(),e);
+            }
+        }
+        if(metricName.equals(Constants.BYTES_IN) || metricName.equals(Constants.BYTES_OUT)){
+            return Double.parseDouble(new DecimalFormat("#.##").format(value/1000));
+        }
+        return value;
+    }
+
     /**
      * get all kinds of the threshold from the tb_data_dictionary.
      * @param context
@@ -461,6 +512,7 @@ public class ServiceDispatcher {
         HashMap<String,Double> alarmThresholdMap = new HashMap<String,Double>();
         alarmThresholdEntityList = getAllAlarmThreshold();
         if(alarmThresholdEntityList == null){
+            logger.warn("检索阈值模型为空，请检查数据库表数据!");
             return null;
         }
         Iterator<MetricThresholdModel> alarmThresholdEntityIterator = alarmThresholdEntityList.iterator();
@@ -504,5 +556,4 @@ public class ServiceDispatcher {
     public void calculateCurrentQPS() {
         
     }
-
 }

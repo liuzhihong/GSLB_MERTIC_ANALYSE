@@ -6,15 +6,15 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
-import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.suning.gslb.metric.service.ServiceDispatcher;
+import com.suning.gslb.metric.serviceImpl.ServiceDispatcher;
 import com.suning.gslb.node.data.model.ClusterEntity;
 import com.suning.gslb.xml.saxparse.ClusterInfoHandler;
 import com.suning.gslb.xml.saxparse.GmatedDataParse;
@@ -35,6 +35,7 @@ public class TaskManager {
     private static final String SPITSYMBOL = ":";
     private static int periodTime = 0;
     
+    private static final Logger logger = Logger.getLogger(TaskManager.class);
     
     public static TaskManager getInstance() {
         currentClusterEntityList = new ArrayList<ClusterEntity>();
@@ -49,13 +50,11 @@ public class TaskManager {
     }
     
     private void init() {
-        Iterator<Entry<String, Integer>> it = hostMap.entrySet().iterator();
-        while(it.hasNext()){
-            Entry<String, Integer> entry = it.next();
+        for(Map.Entry<String, Integer> entry : hostMap.entrySet()){
             String ip = entry.getKey();
             int port = entry.getValue();
             initGmatedData(ip, port);
-            initDB();
+            initDB(); 
         }
     }
 
@@ -97,16 +96,16 @@ public class TaskManager {
                     String ip = result[0];
                     int port = Integer.parseInt(result[1]);
                     hostMap.put(ip, port);
-                    System.out.println(ip+" "+port);
+                    logger.info("读取属性配置文件IP为: "+ip+"端口为 :"+port);
                 }
                 if(COLLECTEDPERIOD.equals(key)){
                     periodTime = Integer.parseInt(props.getProperty (key));
                 }
             }
         } catch (IOException e) {
-            //logger.error("加载属性过程中发生错误");
+            logger.error("加载配置文件出现错误!");
         } catch(ArrayIndexOutOfBoundsException e){
-            //logger.error("请在config.properties文件中设置正确的ip和port值");
+            logger.error("读取配置文件属性出错!");
         } 
     }
 

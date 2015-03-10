@@ -2,15 +2,18 @@ package com.suning.gslb.xml.saxparse;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Socket;
+import java.util.Date;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import com.suning.gslb.metric.util.ClientSocket;
 
 public class GmatedDataParse extends DefaultHandler {
     
@@ -26,6 +29,7 @@ public class GmatedDataParse extends DefaultHandler {
     private static ExtraDataInfoHandler extraDataInfoService;
     private static ExtraElementInfoHandler extraElementInfoService;
     
+    private static final Logger logger = Logger.getLogger(GmatedDataParse.class); 
     
     private static GmatedDataParse inst = new GmatedDataParse();
     
@@ -34,10 +38,11 @@ public class GmatedDataParse extends DefaultHandler {
     }
     
     public void startParse(String nodeAddress, int nodePort) {
+        logger.info("当前解析节点IP为: "+nodeAddress+",端口为:"+nodePort);
         try {
             parse(nodeAddress, nodePort);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
         }
     }
     
@@ -45,8 +50,8 @@ public class GmatedDataParse extends DefaultHandler {
         SAXParserFactory parserFactory = SAXParserFactory.newInstance();
         parserFactory.setValidating(true);
         SAXParser parser = parserFactory.newSAXParser();
-        InputStream is = new Socket(node_address, node_port).getInputStream();
-        int repeatTimes = 0;
+        InputStream is = ClientSocket.getClientSocket(node_address, node_port).getInputStream();
+        /*int repeatTimes = 0;
         while(is == null && repeatTimes < 3){
             repeatTimes++;
             is = new Socket(node_address, node_port).getInputStream();
@@ -54,7 +59,7 @@ public class GmatedDataParse extends DefaultHandler {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
             }
-        }
+        }*/
         parseDataFromGmated(parser, is);
     }
     
@@ -64,6 +69,7 @@ public class GmatedDataParse extends DefaultHandler {
     }
 
     public void startDocument() throws SAXException {
+        logger.info("正常启动数据流解析，开始时间为: "+new Date());
         clusterInfoService = new ClusterInfoHandler();
         hostInfoService = new HostInfoHandler();
         metricInfoService = new MetricInfoHandler();
@@ -71,30 +77,13 @@ public class GmatedDataParse extends DefaultHandler {
         extraElementInfoService = new ExtraElementInfoHandler();
     }
     
-//    public void endDocument() throws SAXException {
-//        System.out.println("Cluster Size = " + clusterInfoService.getCluster().size());
-//        List<MetricEntity> metricList = clusterInfoService.getCluster().get(3).getHost().get(2).getMetric();
-//        Iterator<MetricEntity> metricListIterator = metricList.iterator();
-//        while(metricListIterator.hasNext()){
-//            MetricEntity metric = metricListIterator.next();
-//            if("swap_free".equals(metric.getName())){
-//                System.out.println("swap_free = "+ metric.getVal());
-//            }
-//        }
-//        
-//        List<MetricEntity> metricList1 = clusterInfoService.getCluster().get(3).getHost().get(3).getMetric();
-//        Iterator<MetricEntity> metricListIterator1 = metricList1.iterator();
-//        while(metricListIterator1.hasNext()){
-//            MetricEntity metric = metricListIterator1.next();
-//            if("swap_free".equals(metric.getName())){
-//                System.out.println("swap_free = "+ metric.getVal());
-//            }
-//        }
-//        
-//    }
+    public void endDocument() throws SAXException {
+        logger.info("流文件解析结束，结束时间为: "+new Date());
+    }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes)
             throws SAXException {
+        logger.info("当前解析节点元素为: "+qName);
         if(CLUSTER.equals(qName)){
             clusterInfoService.initClusterInfo(attributes);
         }
@@ -114,6 +103,7 @@ public class GmatedDataParse extends DefaultHandler {
 
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
+        logger.info("当前元素对象解析完成，结束标签为: </"+qName+">");
         if(EXTRA_ELEMENT.equals(qName)){
             extraElementInfoService.setInfoToExtraElement();
         }

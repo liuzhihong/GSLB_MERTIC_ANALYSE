@@ -21,7 +21,7 @@
     <!--  Bussiness appender                                                                                                -->
     <!-- ===================================================================== -->
     
-    <appender name="COMMON" class="org.apache.log4j.RollingFileAppender">
+    <appender name="BUSSINESS" class="org.apache.log4j.RollingFileAppender">
         <param name="file" value="F:/tmp/gslbLog/common.log"/>
 		<param name="append" value="true" />				
 		<param name="maxFileSize" value="100MB" />
@@ -38,8 +38,8 @@
     <!-- ===================================================================== -->
 
     <logger name="com.suning.gslb.metric.serviceImpl" additivity="false">
-        <level value="info"/>
-        <appender-ref ref="COMMON"/>
+        <level value="debug"/>
+        <appender-ref ref="BUSSINESS"/>
     </logger>	
 
     <!-- ===================================================================== -->

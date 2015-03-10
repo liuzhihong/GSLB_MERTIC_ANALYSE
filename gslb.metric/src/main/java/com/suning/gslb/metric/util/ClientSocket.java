@@ -33,8 +33,8 @@ public class ClientSocket {
         final String key = getConnectionName(ip, port);
         ClientSocket cs = cache.get(key);
         if(cs == null){
-            ClientSocket client = new ClientSocket(ip, port);
-            cache.put(key, client);
+            cs = new ClientSocket(ip, port);
+            cache.put(key, cs);
         }
         return cs;
     }
